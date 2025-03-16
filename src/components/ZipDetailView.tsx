@@ -202,18 +202,6 @@ const ZipDetailView: React.FC<ZipDetailViewProps> = ({
               onValueChange={setActiveTab}
               className="h-full flex flex-col"
             >
-              <TabsList className="bg-muted/30 border-b border-border px-4 h-12 justify-start overflow-x-auto">
-                {outFiles.map((file) => (
-                  <TabsTrigger
-                    key={file.name}
-                    value={file.name}
-                    className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground"
-                  >
-                    {file.name}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-
               <ScrollArea className="flex-1">
                 {outFiles.map((file) => (
                   <TabsContent

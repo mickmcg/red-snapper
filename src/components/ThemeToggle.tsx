@@ -2,12 +2,19 @@ import { Moon, Sun, Laptop } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useTheme } from "./ThemeProvider";
+import { useState } from "react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [open, setOpen] = useState(false);
+
+  const handleThemeChange = (newTheme: "light" | "dark" | "system") => {
+    setTheme(newTheme);
+    setOpen(false);
+  };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" size="icon" className="h-10 w-10 text-white">
           {theme === "dark" ? (
@@ -25,7 +32,7 @@ export function ThemeToggle() {
           <Button
             variant={theme === "light" ? "default" : "ghost"}
             className="justify-start font-normal"
-            onClick={() => setTheme("light")}
+            onClick={() => handleThemeChange("light")}
           >
             <Sun className="mr-2 h-4 w-4" />
             Light
@@ -33,7 +40,7 @@ export function ThemeToggle() {
           <Button
             variant={theme === "dark" ? "default" : "ghost"}
             className="justify-start font-normal"
-            onClick={() => setTheme("dark")}
+            onClick={() => handleThemeChange("dark")}
           >
             <Moon className="mr-2 h-4 w-4" />
             Dark
@@ -41,7 +48,7 @@ export function ThemeToggle() {
           <Button
             variant={theme === "system" ? "default" : "ghost"}
             className="justify-start font-normal"
-            onClick={() => setTheme("system")}
+            onClick={() => handleThemeChange("system")}
           >
             <Laptop className="mr-2 h-4 w-4" />
             System

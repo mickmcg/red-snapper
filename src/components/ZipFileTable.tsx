@@ -254,7 +254,7 @@ const ZipFileTable = forwardRef<
                   SNAP_IPADDR
                 </Button>
               </TableHead>
-              <TableHead className="w-[160px]">Actions</TableHead>
+              <TableHead className="w-[80px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -306,19 +306,7 @@ const ZipFileTable = forwardRef<
                       : "N/A"}
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onZipFileClick(zipFile);
-                        }}
-                        className="flex items-center gap-1"
-                      >
-                        <Eye className="h-4 w-4" />
-                        View
-                      </Button>
+                    <div className="flex items-center">
                       <Button
                         variant="ghost"
                         size="sm"

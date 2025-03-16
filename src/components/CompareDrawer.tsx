@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { X as CloseIcon, Maximize2, Minimize2 } from "lucide-react";
-import { Sheet, SheetContent, SheetClose } from "./ui/sheet";
+import { cn } from "../lib/utils";
 import CompareZipFiles from "./CompareZipFiles";
 
 interface ZipFile {
@@ -27,56 +27,60 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
   zipFiles = [],
   selectedFiles = [],
 }) => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
+  const toggleFullScreen = () => {
+    setIsFullScreen(!isFullScreen);
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent
-        side="right"
-        className={`${isFullscreen ? "w-screen max-w-full" : "w-[95vw] sm:max-w-[90vw] md:max-w-[90vw] lg:max-w-[90vw]"} p-0 bg-background`}
-        hideCloseButton
-      >
-        <div className="h-full flex flex-col overflow-hidden">
-          <div className="flex justify-between items-center p-4 border-b border-border">
-            <h2 className="text-xl font-semibold text-foreground">
-              Compare Snapshot Files
-            </h2>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleFullscreen}
-                title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-              >
-                {isFullscreen ? (
-                  <Minimize2 className="h-4 w-4" />
-                ) : (
-                  <Maximize2 className="h-4 w-4" />
-                )}
-              </Button>
-              <SheetClose asChild>
-                <Button variant="ghost" size="icon">
-                  <CloseIcon className="h-4 w-4" />
-                </Button>
-              </SheetClose>
-            </div>
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <CompareZipFiles
-              zipFiles={zipFiles}
-              isOpen={true}
-              onClose={onClose}
-              selectedFiles={selectedFiles}
-              hideHeader={true}
-            />
-          </div>
+    <div
+      className={cn(
+        "fixed inset-y-0 right-0 z-50 flex flex-col bg-background border-l border-border shadow-xl transition-all duration-300 ease-in-out",
+        isFullScreen ? "w-full" : "w-[1400px]",
+        !isOpen && "translate-x-full",
+      )}
+    >
+      <div className="flex justify-between items-center p-4 border-b border-border bg-background">
+        <h2 className="text-xl font-semibold text-foreground">
+          Compare Snapshot Files
+        </h2>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleFullScreen}
+            className="h-9 w-9"
+            title={isFullScreen ? "Exit Fullscreen" : "Fullscreen"}
+          >
+            {isFullScreen ? (
+              <Minimize2 className="h-5 w-5" />
+            ) : (
+              <Maximize2 className="h-5 w-5" />
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9"
+            onClick={onClose}
+          >
+            <CloseIcon className="h-5 w-5" />
+          </Button>
         </div>
-      </SheetContent>
-    </Sheet>
+      </div>
+      <div className="flex-1 overflow-hidden bg-background">
+        <CompareZipFiles
+          zipFiles={zipFiles}
+          isOpen={true}
+          onClose={onClose}
+          selectedFiles={selectedFiles}
+          hideHeader={true}
+        />
+      </div>
+    </div>
   );
 };
 
