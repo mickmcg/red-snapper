@@ -100,14 +100,14 @@ const FileDropZone = ({
         <>
           <FileUp className="h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="text-lg font-medium mb-2">
-            Drag & Drop Zip File Here
+            Drag & drop snapshot zip files here
           </h3>
           <p className="text-sm text-muted-foreground mb-4 text-center">
             or click the button below to browse files
           </p>
           <Button onClick={handleButtonClick}>
             <Upload className="mr-2 h-4 w-4" />
-            Select Zip File
+            Select snapshot zip file
           </Button>
         </>
       )}

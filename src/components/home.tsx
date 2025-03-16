@@ -255,7 +255,7 @@ const Home = () => {
         <div className="mb-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold">
-              Previously Loaded Zip Files
+              Previously loaded zip files
             </h3>
             <Button
               variant="outline"
