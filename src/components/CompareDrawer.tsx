@@ -43,7 +43,7 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
         <div className="h-full flex flex-col overflow-hidden">
           <div className="flex justify-between items-center p-4 border-b border-border">
             <h2 className="text-xl font-semibold text-foreground">
-              Compare Zip Files
+              Compare Snapshot Files
             </h2>
             <div className="flex items-center gap-2">
               <Button
