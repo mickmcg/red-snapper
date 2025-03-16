@@ -17,7 +17,7 @@ interface ZipFile {
   lastOpened: Date;
   size: number;
   lineCount: number;
-  numFiles: number;
+  numFiles?: number;
   metadata?: Record<string, string>;
 }
 
