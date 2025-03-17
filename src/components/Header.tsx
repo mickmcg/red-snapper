@@ -9,7 +9,7 @@ interface HeaderProps {
 
 const Header = ({ onOpenZipFile = () => {} }: HeaderProps) => {
   return (
-    <header className="w-full h-20 bg-slate-900 dark:bg-slate-950 border-b border-slate-800 flex items-center justify-between px-6 shadow-md">
+    <header className="w-full h-20 bg-[#02203E] dark:bg-[#02203E] border-b border-slate-800 flex items-center justify-between px-6 shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex items-center">
           <svg
