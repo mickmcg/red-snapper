@@ -29,8 +29,8 @@ get_os_info() {
         OS_VERSION="Unknown"
     fi
 
-    echo "OS Name: $OS_NAME"
-    echo "OS Version: $OS_VERSION"
+    echo "SNAP_OS_NAME=$OS_NAME"
+    echo "SNAP_OS_VERSION=$OS_VERSION"
 }
 
 get_os_info
