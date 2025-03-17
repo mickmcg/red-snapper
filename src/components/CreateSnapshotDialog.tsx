@@ -14,7 +14,7 @@ const CreateSnapshotDialog = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => window.createSnapshotDialog?.close()}
+              onClick={() => (window as any).createSnapshotDialog?.close()}
               className="h-9 w-9"
             >
               <X className="h-5 w-5" />
@@ -65,7 +65,7 @@ const CreateSnapshotDialog = () => {
             </p>
             <div className="flex justify-end">
               <Button
-                onClick={() => window.createSnapshotDialog?.close()}
+                onClick={() => (window as any).createSnapshotDialog?.close()}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 Close
