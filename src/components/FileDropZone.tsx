@@ -4,15 +4,17 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 
 interface FileDropZoneProps {
-  onFileSelect?: (file: File) => void;
+  onFileSelect?: (files: File[]) => void;
   isUploading?: boolean;
   error?: string | null;
+  multiple?: boolean;
 }
 
 const FileDropZone = ({
   onFileSelect = () => {},
   isUploading = false,
   error = null,
+  multiple = false,
 }: FileDropZoneProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,11 +37,23 @@ const FileDropZone = ({
       e.stopPropagation();
       setIsDragging(false);
 
-      const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        const file = files[0];
-        if (file.name.endsWith(".zip")) {
-          onFileSelect(file);
+      const droppedFiles = e.dataTransfer.files;
+      if (droppedFiles && droppedFiles.length > 0) {
+        const validFiles = Array.from(droppedFiles).filter(
+          (file) =>
+            file.name.endsWith(".zip") ||
+            file.name.endsWith(".tar.gz") ||
+            file.name.endsWith(".tgz"),
+        );
+
+        if (validFiles.length > 0) {
+          if (multiple) {
+            onFileSelect(validFiles);
+          } else {
+            onFileSelect([validFiles[0]]);
+          }
+        } else {
+          console.error("Unsupported file format");
         }
       }
     },
@@ -48,12 +62,17 @@ const FileDropZone = ({
 
   const handleFileInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files;
-      if (files && files.length > 0) {
-        onFileSelect(files[0]);
+      const selectedFiles = e.target.files;
+      if (selectedFiles && selectedFiles.length > 0) {
+        const filesArray = Array.from(selectedFiles);
+        if (multiple) {
+          onFileSelect(filesArray);
+        } else {
+          onFileSelect([filesArray[0]]);
+        }
       }
     },
-    [onFileSelect],
+    [onFileSelect, multiple],
   );
 
   const handleButtonClick = useCallback(() => {
@@ -77,8 +96,9 @@ const FileDropZone = ({
         type="file"
         ref={fileInputRef}
         onChange={handleFileInputChange}
-        accept=".zip"
+        accept=".zip,.tar.gz,.tgz,application/gzip,application/x-gzip"
         className="hidden"
+        multiple={multiple}
       />
 
       {isUploading ? (
@@ -100,14 +120,15 @@ const FileDropZone = ({
         <>
           <FileUp className="h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="text-lg font-medium mb-2">
-            Drag & drop snapshot zip files here
+            Drag & drop snapshot files here
           </h3>
           <p className="text-sm text-muted-foreground mb-4 text-center">
-            or click the button below to browse files
+            or click the button below to browse {multiple ? "multiple " : ""}
+            files (.zip, .tar.gz)
           </p>
           <Button onClick={handleButtonClick}>
             <Upload className="mr-2 h-4 w-4" />
-            Select snapshot zip file
+            Select snapshot file
           </Button>
         </>
       )}

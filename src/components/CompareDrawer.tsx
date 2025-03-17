@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { X as CloseIcon, Maximize2, Minimize2 } from "lucide-react";
 import { cn } from "../lib/utils";
@@ -28,6 +28,22 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
   selectedFiles = [],
 }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const drawerWidth = 1400;
+
+  // Update window width on resize
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Auto fullscreen if window is narrower than drawer width
+  useEffect(() => {
+    if (windowWidth < drawerWidth) {
+      setIsFullScreen(true);
+    }
+  }, [windowWidth, drawerWidth]);
 
   const toggleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -39,7 +55,7 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
     <div
       className={cn(
         "fixed inset-y-0 right-0 z-50 flex flex-col bg-background border-l border-border shadow-xl transition-all duration-300 ease-in-out",
-        isFullScreen ? "w-full" : "w-[1400px]",
+        isFullScreen || windowWidth < drawerWidth ? "w-full" : "w-[1400px]",
         !isOpen && "translate-x-full",
       )}
     >
@@ -54,6 +70,7 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
             onClick={toggleFullScreen}
             className="h-9 w-9"
             title={isFullScreen ? "Exit Fullscreen" : "Fullscreen"}
+            disabled={windowWidth < drawerWidth}
           >
             {isFullScreen ? (
               <Minimize2 className="h-5 w-5" />
@@ -76,8 +93,8 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
           zipFiles={zipFiles}
           isOpen={true}
           onClose={onClose}
-          selectedFiles={selectedFiles}
-          hideHeader={true}
+          selectedFiles={selectedFiles || []}
+          hideHeader={false}
         />
       </div>
     </div>

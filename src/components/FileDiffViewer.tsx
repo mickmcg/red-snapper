@@ -159,7 +159,12 @@ const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div
+      className="h-full flex flex-col isolate focus:outline-none"
+      onClick={(e) => e.stopPropagation()}
+      onWheel={(e) => e.stopPropagation()}
+      tabIndex={0}
+    >
       <div className="p-4 border-b border-border flex justify-between items-center bg-background">
         <h3 className="font-medium text-foreground">{fileName}</h3>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-auto">
@@ -172,55 +177,77 @@ const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
 
       <div className="flex-1 overflow-hidden relative">
         {activeTab === "diff" && (
-          <ScrollArea className="h-full">
-            <div className="p-4">
-              <pre className="font-mono text-sm">
-                <table className="w-full border-collapse">
-                  <tbody>
-                    {diffLines.map((line, index) => (
-                      <tr key={index} className={`${getLineClass(line.type)}`}>
-                        <td className="pr-4 text-right text-muted-foreground select-none w-12">
-                          {line.lineNumber1 || " "}
-                        </td>
-                        <td className="pr-4 text-right text-muted-foreground select-none w-12">
-                          {line.lineNumber2 || " "}
-                        </td>
-                        <td className="pl-4 whitespace-pre">{line.content}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </pre>
+          <div className="h-full overflow-hidden">
+            <div className="p-4 h-full overflow-hidden">
+              <div
+                className="overflow-x-auto overflow-y-auto max-h-full"
+                onClick={(e) => e.stopPropagation()}
+                onWheel={(e) => e.stopPropagation()}
+              >
+                <pre className="font-mono text-sm">
+                  <table
+                    className="border-collapse"
+                    style={{ minWidth: "max-content" }}
+                  >
+                    <tbody>
+                      {diffLines.map((line, index) => (
+                        <tr
+                          key={index}
+                          className={`${getLineClass(line.type)}`}
+                        >
+                          <td
+                            className="pr-4 text-right text-muted-foreground select-none"
+                            style={{ width: "4rem", minWidth: "4rem" }}
+                          >
+                            {line.lineNumber1 || " "}
+                          </td>
+                          <td
+                            className="pr-4 text-right text-muted-foreground select-none"
+                            style={{ width: "4rem", minWidth: "4rem" }}
+                          >
+                            {line.lineNumber2 || " "}
+                          </td>
+                          <td
+                            className="pl-4 whitespace-pre"
+                            style={{ minWidth: "max-content" }}
+                          >
+                            {line.content}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </pre>
+              </div>
             </div>
-          </ScrollArea>
+          </div>
         )}
 
         {activeTab === "side" && (
           <div className="flex h-full">
-            <div className="w-1/2 border-r border-border">
+            <div className="w-1/2 border-r border-border overflow-hidden">
               <div className="p-2 border-b border-border bg-card">
                 <h4 className="text-sm font-medium text-card-foreground truncate">
                   {firstFileName}
                 </h4>
               </div>
-              <ScrollArea
-                className="h-[calc(100%-2.5rem)]"
+              <div
+                className="h-[calc(100%-2.5rem)] overflow-x-auto overflow-y-auto"
                 ref={leftScrollRef}
-                onScroll={() => {
+                onClick={(e) => e.stopPropagation()}
+                onWheel={(e) => e.stopPropagation()}
+                onScroll={(e) => {
                   if (isScrollingSynced.current) return;
+                  e.stopPropagation();
 
                   if (rightScrollRef.current && leftScrollRef.current) {
                     isScrollingSynced.current = true;
 
-                    const leftViewport = leftScrollRef.current.querySelector(
-                      "[data-radix-scroll-area-viewport]",
-                    );
-                    const rightViewport = rightScrollRef.current.querySelector(
-                      "[data-radix-scroll-area-viewport]",
-                    );
-
-                    if (leftViewport && rightViewport) {
-                      rightViewport.scrollTop = leftViewport.scrollTop;
+                    const rightViewport = rightScrollRef.current;
+                    if (rightViewport) {
+                      rightViewport.scrollTop = leftScrollRef.current.scrollTop;
+                      rightViewport.scrollLeft =
+                        leftScrollRef.current.scrollLeft;
                     }
 
                     setTimeout(() => {
@@ -231,7 +258,10 @@ const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
               >
                 <div className="p-4">
                   <pre className="font-mono text-sm">
-                    <table className="w-full border-collapse">
+                    <table
+                      className="border-collapse"
+                      style={{ minWidth: "max-content" }}
+                    >
                       <tbody>
                         {firstContent.split("\n").map((line, index) => (
                           <tr
@@ -246,42 +276,49 @@ const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
                                 : "text-foreground"
                             }
                           >
-                            <td className="pr-4 text-right text-muted-foreground select-none w-12">
+                            <td
+                              className="pr-4 text-right text-muted-foreground select-none"
+                              style={{ width: "4rem", minWidth: "4rem" }}
+                            >
                               {index + 1}
                             </td>
-                            <td className="pl-4 whitespace-pre">{line}</td>
+                            <td
+                              className="pl-4 whitespace-pre"
+                              style={{ minWidth: "max-content" }}
+                            >
+                              {line}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </pre>
                 </div>
-              </ScrollArea>
+              </div>
             </div>
-            <div className="w-1/2">
+            <div className="w-1/2 overflow-hidden">
               <div className="p-2 border-b border-border bg-card">
                 <h4 className="text-sm font-medium text-card-foreground truncate">
                   {secondFileName}
                 </h4>
               </div>
-              <ScrollArea
-                className="h-[calc(100%-2.5rem)]"
+              <div
+                className="h-[calc(100%-2.5rem)] overflow-x-auto overflow-y-auto"
                 ref={rightScrollRef}
-                onScroll={() => {
+                onClick={(e) => e.stopPropagation()}
+                onWheel={(e) => e.stopPropagation()}
+                onScroll={(e) => {
                   if (isScrollingSynced.current) return;
+                  e.stopPropagation();
 
                   if (leftScrollRef.current && rightScrollRef.current) {
                     isScrollingSynced.current = true;
 
-                    const rightViewport = rightScrollRef.current.querySelector(
-                      "[data-radix-scroll-area-viewport]",
-                    );
-                    const leftViewport = leftScrollRef.current.querySelector(
-                      "[data-radix-scroll-area-viewport]",
-                    );
-
-                    if (rightViewport && leftViewport) {
-                      leftViewport.scrollTop = rightViewport.scrollTop;
+                    const leftViewport = leftScrollRef.current;
+                    if (leftViewport) {
+                      leftViewport.scrollTop = rightScrollRef.current.scrollTop;
+                      leftViewport.scrollLeft =
+                        rightScrollRef.current.scrollLeft;
                     }
 
                     setTimeout(() => {
@@ -292,7 +329,10 @@ const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
               >
                 <div className="p-4">
                   <pre className="font-mono text-sm">
-                    <table className="w-full border-collapse">
+                    <table
+                      className="border-collapse"
+                      style={{ minWidth: "max-content" }}
+                    >
                       <tbody>
                         {secondContent.split("\n").map((line, index) => (
                           <tr
@@ -307,17 +347,25 @@ const FileDiffViewer: React.FC<FileDiffViewerProps> = ({
                                 : "text-foreground"
                             }
                           >
-                            <td className="pr-4 text-right text-muted-foreground select-none w-12">
+                            <td
+                              className="pr-4 text-right text-muted-foreground select-none"
+                              style={{ width: "4rem", minWidth: "4rem" }}
+                            >
                               {index + 1}
                             </td>
-                            <td className="pl-4 whitespace-pre">{line}</td>
+                            <td
+                              className="pl-4 whitespace-pre"
+                              style={{ minWidth: "max-content" }}
+                            >
+                              {line}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </pre>
                 </div>
-              </ScrollArea>
+              </div>
             </div>
           </div>
         )}
