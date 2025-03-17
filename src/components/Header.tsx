@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { Upload } from "lucide-react";
+import { Upload, Code } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderProps {
@@ -9,7 +9,7 @@ interface HeaderProps {
 
 const Header = ({ onOpenZipFile = () => {} }: HeaderProps) => {
   return (
-    <header className="w-full h-20 bg-[#02203E] dark:bg-black border-b border-slate-800 flex items-center justify-between px-6 shadow-md">
+    <header className="w-full h-20 bg-[#02203E] dark:bg-[#02203E] border-b border-slate-800 flex items-center justify-between px-6 shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex items-center">
           <svg
@@ -42,8 +42,9 @@ const Header = ({ onOpenZipFile = () => {} }: HeaderProps) => {
       <div className="flex items-center gap-4">
         <Button
           onClick={() => (window as any).createSnapshotDialog?.showModal()}
-          className="bg-green-600 hover:bg-green-700 text-white"
+          className="bg-green-600 hover:bg-green-700 text-white flex items-center gap-2"
         >
+          <Code className="h-4 w-4" />
           Create a snapshot
         </Button>
       </div>
