@@ -23,12 +23,16 @@ for script in "$MODULES_DIR"/*.sh; do
 done
 
 # Create metadata.out
-SNAP_VERSION=0.1
+SNAP_VERSION=0.2
 SNAP_HOSTNAME=`cat ${OUTPUT_DIR}/hostname.out`
 SNAP_IPADDR=`cat ${OUTPUT_DIR}/main-ip.out`
+SNAP_OS_NAME=`grep SNAP_OS_NAME ${OUTPUT_DIR}/operating-system.out | cut -d'=' -f2`
+SNAP_OS_VERSION=`grep SNAP_OS_VERSION ${OUTPUT_DIR}/operating-system.out | cut -d'=' -f2`
 echo "SNAP_VERSION=$SNAP_VERSION" > ${OUTPUT_DIR}/metadata.out
 echo "SNAP_HOSTNAME=$SNAP_HOSTNAME" >> ${OUTPUT_DIR}/metadata.out
 echo "SNAP_IPADDR=$SNAP_IPADDR" >> ${OUTPUT_DIR}/metadata.out
+echo "SNAP_OS_NAME=$SNAP_OS_NAME" >> ${OUTPUT_DIR}/metadata.out
+echo "SNAP_OS_VERSION=$SNAP_OS_VERSION" >> ${OUTPUT_DIR}/metadata.out
 echo "Created: ${OUTPUT_DIR}/metadata.out"
 
 # Zip all .out files
