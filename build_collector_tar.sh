@@ -11,5 +11,5 @@ fi
 # Change version when building
 SNAP_VERSION="0.2"
 sed -i.bak "s/^SNAP_VERSION=[0-9]/SNAP_VERSION=$SNAP_VERSION/" red-snapper-collector/snapshot.sh
-tar --exclude='red-snapper-collector/snapshots' -czvf collector-releases/red-snapper-collector-$SNAP_VERSION.tar.gz red-snapper-collector/
+tar --exclude='red-snapper-collector/snapshots' --exclude='red-snapper-collector/snapshot.sh.bak' -czvf collector-releases/red-snapper-collector-$SNAP_VERSION.tar.gz red-snapper-collector/
 mv red-snapper-collector/snapshot.sh.bak red-snapper-collector/snapshot.sh
