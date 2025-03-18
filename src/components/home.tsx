@@ -11,7 +11,7 @@ import CreateSnapshotDialog from "./CreateSnapshotDialog";
 import { initDB, storeOutFile, deleteOutFilesForZip } from "../lib/indexedDB";
 import { getAllZipFiles } from "../lib/getAllZipFiles";
 import { Button } from "./ui/button";
-import { GitCompare as CompareIcon, Trash2 } from "lucide-react";
+import { GitCompare as CompareIcon, Trash2, Clock } from "lucide-react";
 
 interface ZipFile {
   id: string;
@@ -382,9 +382,10 @@ const Home = () => {
 
         <div className="mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">
-              Previously loaded snapshot files
-            </h3>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <h3 className="text-xl font-semibold">Recent files</h3>
+            </div>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
