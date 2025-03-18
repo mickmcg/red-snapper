@@ -9,6 +9,7 @@ import {
   Minimize2,
   ArrowUp,
   ArrowDown,
+  GitCompare,
 } from "lucide-react";
 import FileContentViewer from "./FileContentViewer";
 import FileDrawer from "./FileDrawer";
@@ -268,7 +269,7 @@ const ZipDetailView: React.FC<ZipDetailViewProps> = ({
             }}
             disabled={!activeFile}
           >
-            <FileText className="h-4 w-4 mr-2" />
+            <GitCompare className="h-4 w-4 mr-2" />
             Compare
           </Button>
           <Button

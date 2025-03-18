@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { X as CloseIcon, Maximize2, Minimize2 } from "lucide-react";
+import { X as CloseIcon, Maximize2, Minimize2, GitCompare } from "lucide-react";
 import { cn } from "../lib/utils";
 import CompareZipFiles from "./CompareZipFiles";
 
@@ -60,7 +60,8 @@ const CompareDrawer: React.FC<CompareDrawerProps> = ({
       )}
     >
       <div className="flex justify-between items-center p-4 border-b border-border bg-background">
-        <h2 className="text-xl font-semibold text-foreground">
+        <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+          <GitCompare className="h-5 w-5" />
           Compare Snapshot Files
         </h2>
         <div className="flex items-center gap-2">
