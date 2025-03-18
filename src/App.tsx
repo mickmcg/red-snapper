@@ -3,6 +3,7 @@ import { useRoutes, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
 import routes from "tempo-routes";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { Footer } from "./components/Footer";
 
 function App() {
   // Create a separate element for Tempo routes to avoid conflicts
@@ -23,6 +24,8 @@ function App() {
             <Route path="/tempobook/*" element={null} />
           )}
         </Routes>
+
+        <Footer />
       </Suspense>
     </ThemeProvider>
   );
