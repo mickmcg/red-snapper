@@ -31,5 +31,5 @@ dist-ssr
 core
 
 .github/
-collector/snapshots
+red-snapper-collector/snapshots
 
