@@ -1,7 +1,10 @@
 #!/bin/bash
 
-MODULES_DIR="./modules"  # Change this to your actual modules directory
-OUTPUT_DIR="./snapshots"
+DIR="$(cd "$(dirname "$0")" && pwd)"
+SNAP_VERSION=0 # Set by build_collector_tar.sh
+
+MODULES_DIR="$DIR/modules"  # Change this to your actual modules directory
+OUTPUT_DIR="$DIR/snapshots"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 TAR_FILE="${OUTPUT_DIR}/${TIMESTAMP}_snapshot.tar.gz"
 
@@ -23,7 +26,6 @@ for script in "$MODULES_DIR"/*.sh; do
 done
 
 # Create metadata.out
-SNAP_VERSION=0.2
 SNAP_HOSTNAME=$(cat "${OUTPUT_DIR}/hostname.out" 2>/dev/null || echo "UNKNOWN")
 SNAP_IPADDR=$(cat "${OUTPUT_DIR}/main-ip.out" 2>/dev/null || echo "UNKNOWN")
 SNAP_OS_NAME=$(grep SNAP_OS_NAME "${OUTPUT_DIR}/operating-system.out" | cut -d'=' -f2 2>/dev/null || echo "UNKNOWN")
