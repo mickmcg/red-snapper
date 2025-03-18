@@ -403,11 +403,27 @@ const ZipFileTable = forwardRef<
                         {zipFile.metadata &&
                         zipFile.metadata["SNAP_OS_NAME"] ? (
                           zipFile.metadata["SNAP_OS_NAME"] === "macOS" ? (
-                            <Apple className="h-4 w-4 text-gray-600" />
+                            <img
+                              src="/apple-icon.svg"
+                              alt="Apple icon"
+                              className="h-4 w-4 text-gray-600"
+                            />
                           ) : zipFile.metadata["SNAP_OS_NAME"].includes(
                               "Linux",
                             ) ? (
-                            <Terminal className="h-4 w-4 text-gray-600" />
+                            <img
+                              src="/linux-icon.svg"
+                              alt="Linux icon"
+                              className="h-4 w-4 text-gray-600"
+                            />
+                          ) : zipFile.metadata["SNAP_OS_NAME"].includes(
+                            "Windows",
+                          ) ? (
+                            <img
+                              src="/windows-icon.svg"
+                              alt="Windows icon"
+                              className="h-4 w-4 text-gray-600"
+                            />
                           ) : null
                         ) : null}
                         <span>
