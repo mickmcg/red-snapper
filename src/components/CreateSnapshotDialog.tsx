@@ -28,14 +28,15 @@ const CreateSnapshotDialog = () => {
             </p>
             <div className="bg-muted p-4 rounded-md mb-4 overflow-x-auto relative group">
               <pre className="text-sm font-mono text-foreground whitespace-pre-wrap">
-                curl -L -o collector.zip
-                https://github.com/mickmcg/red-snapper/raw/refs/heads/main/collector.zip
-                && unzip -o collector.zip && bash collector/red-snapper.sh
+                curl -L -o red-snapper-collector.tar.gz
+                https://github.com/mickmcg/red-snapper/raw/refs/heads/main/collector-releases/red-snapper-collector-0.2.tar.gz
+                && tar -xzvf red-snapper-collector.tar.gz && bash
+                red-snapper-collector/snapshot.sh
               </pre>
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    "curl -L -o collector.zip https://github.com/mickmcg/red-snapper/raw/refs/heads/main/collector.zip && unzip -o collector.zip && bash collector/red-snapper.sh",
+                    "curl -L -o red-snapper-collector.tar.gz https://github.com/mickmcg/red-snapper/raw/refs/heads/main/collector-releases/red-snapper-collector-0.2.tar.gz && tar -xzvf red-snapper-collector.tar.gz && bash red-snapper-collector/snapshot.sh",
                   );
                 }}
                 className="absolute top-2 right-2 p-1.5 rounded-md bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
